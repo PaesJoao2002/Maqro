@@ -12,7 +12,8 @@ class PlaceholderManager:
 
     def _apply_placeholder(self):
         self.entry.delete(0, "end")
-        self.entry.insert(0, self.placeholder_text)
+        self.entry.insert(0,
+                          self.placeholder_text)
         self.entry.configure(text_color="gray")
         self.active = True
         self.entry.icursor(0)
@@ -30,5 +31,5 @@ class PlaceholderManager:
     def clear_if_active(self):
         if self.active:
             self.entry.delete(0, "end")
-            self.entry.configure(text_color=("gray10", "gray90"))
+            self.entry.configure(text_color=("#FFFFFF"))
             self.active = False

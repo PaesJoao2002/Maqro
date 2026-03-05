@@ -22,10 +22,16 @@ class TitleMenu(ctk.CTkFrame):
             cursor="arrow",
             command=self.close_app
         )
-        self.close_button.grid(row=0, column=0, sticky="w", padx=(20, 0))
+        self.close_button.grid(row=0,
+                               column=0,
+                               sticky="w",
+                               padx=(20, 0))
         self.close_button._no_drag = True
 
-        spacer = ctk.CTkFrame(self, fg_color="transparent", height=0, width=80)
+        spacer = ctk.CTkFrame(self,
+                              fg_color="transparent",
+                              height=0,
+                              width=80)
         spacer.grid(row=0, column=1, sticky="ew")
 
         self.header_image = ctk.CTkImage(
@@ -39,7 +45,9 @@ class TitleMenu(ctk.CTkFrame):
             text="",
             image=self.header_image
         )
-        self.header_label.grid(row=0, column=2, sticky="e") 
+        self.header_label.grid(row=0,
+                               column=2,
+                               sticky="e") 
 
         self._bind_drag(self)
 

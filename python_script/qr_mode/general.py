@@ -21,18 +21,30 @@ class GeneralTab(ctk.CTkFrame):
             values=["Telefone","CPF","CNPJ","E-mail","Chave Aleatória"],
             width=140, height=40, command=self.on_pix_type_change
         )
-        self.pix_key_type.grid(row=0, column=0, padx=(10,0), sticky="w")
+        self.pix_key_type.grid(row=0,
+                               column=0,
+                               padx=(10,0),
+                               sticky="w")
 
         self.input_container = ctk.CTkFrame(action_row, fg_color="transparent")
-        self.input_container.grid(row=0, column=1, sticky="ew", padx=(10,0))
+        self.input_container.grid(row=0,
+                                  column=1,
+                                  sticky="ew",
+                                  padx=(10,0))
         self.input_container.grid_columnconfigure(1, weight=1)
 
         self.prefix_label = ctk.CTkLabel(self.input_container, text="https://")
-        self.prefix_label.grid(row=0, column=0, padx=(20,10))
+        self.prefix_label.grid(row=0,
+                               column=0,
+                               padx=(20,10))
         self.prefix_label.grid_remove()
 
-        self.text_field = ctk.CTkEntry(self.input_container, height=40, state="normal")
-        self.text_field.grid(row=0, column=1, sticky="ew")
+        self.text_field = ctk.CTkEntry(self.input_container,
+                                       height=40,
+                                       state="normal")
+        self.text_field.grid(row=0,
+                             column=1,
+                             sticky="ew")
 
         EntryContextMenu(self.text_field, placeholder_attr="placeholder_active")
 
@@ -85,7 +97,7 @@ class GeneralTab(ctk.CTkFrame):
             return "break"
         if event.state & 0x4:
             return
-        allowed = ("BackSpace","Delete","Left","Right","Home","End")
+        allowed = ("BackSpace", "Delete", "Left", "Right", "Home", "End")
         if event.keysym in allowed or (event.char and event.char.isprintable()):
             return
         return "break"
@@ -112,7 +124,8 @@ class GeneralTab(ctk.CTkFrame):
                     "Chave Aleatória": validate_random_key
                 }
                 key_type = self.pix_key_type.get()
-                payload = gerar_payload_pix(chave=validators[key_type](raw_text), tipo=key_type)
+                payload = gerar_payload_pix(chave=validators[key_type](raw_text),
+                                            tipo=key_type)
             else:
                 return
             self.right_screen.render_from_string(payload)
