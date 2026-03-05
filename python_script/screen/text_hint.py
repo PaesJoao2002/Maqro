@@ -78,8 +78,8 @@ class TextFrame(ctk.CTkFrame):
         elif value == "Redirecionamento":
             self.set_hint_text(
                 "Gera QR Codes que contém links. "
-                "Podem ser usados para redirecionar usuários para sites, "
-                "imagens, vídeos, arquivos PDF, adicionar número de Whatsapp "
+                "Podem ser usados para redirecionar usuários para sites que contém "
+                "imagens, vídeos, arquivos PDF, para adicionar número de Whatsapp "
                 "ou ir para uma rede social específica."
             )
             
@@ -93,7 +93,8 @@ class TextFrame(ctk.CTkFrame):
             self.set_hint_text(
                 "Nessa opção você pode gerar QR Codes para pagamentos via Pix. "
                 "Útil para comerciantes ou prestadores de serviços, basta inserir "
-                "sua chave (opcionalmente o valor que deseja)."
+                "sua chave pix para que seus clientes realizarem pagamentos de uma "
+                "forma mais prática."
             )
             self.set_observation_text(
                 "OBS.: Esse modo não é recomendado para gerar QR Codes "
