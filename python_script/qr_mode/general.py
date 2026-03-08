@@ -1,9 +1,9 @@
 import customtkinter as ctk
 from python_script.qr_mode.pix import gerar_payload_pix
 from python_script.functional.ui_errors import show_error
-from ..functional.placeholder import PlaceholderManager
-from .pix_masks import apply_phone_mask, apply_cpf_mask, apply_cnpj_mask
-from ..functional.validators import validate_text, validate_phone, validate_cpf, validate_cnpj, validate_email, validate_random_key
+from python_script.functional.placeholder import PlaceholderTextManager
+from python_script.qr_mode.pix_masks import apply_phone_mask, apply_cpf_mask, apply_cnpj_mask
+from python_script.functional.validators import validate_text, validate_phone, validate_cpf, validate_cnpj, validate_email, validate_random_key
 from python_script.screen.context_menu import EntryContextMenu
 
 class GeneralTab(ctk.CTkFrame):
@@ -51,8 +51,8 @@ class GeneralTab(ctk.CTkFrame):
         self.button = ctk.CTkButton(action_row, text="Gerar/Atualizar", height=40, command=self.send_qr)
         self.button.grid(row=0, column=2, padx=10)
 
-        self.placeholder = PlaceholderManager(self.text_field)
-        self.placeholder.set("Digite aqui...")
+        self.placeholder = PlaceholderTextManager(self.text_field)
+        self.placeholder.set_placeholder_text("Digite aqui...")
 
         self.text_field.bind("<FocusIn>", self.placeholder.focus_in)
         self.text_field.bind("<FocusOut>", self.placeholder.restore)
@@ -73,7 +73,7 @@ class GeneralTab(ctk.CTkFrame):
         else:
             self.pix_key_type.grid_remove()
             self.prefix_label.grid_remove()
-            self.placeholder.set("Digite seu texto aqui...")
+            self.placeholder.set_placeholder_text("Digite seu texto aqui...")
 
     def _update_pix_placeholder(self):
         tipo = self.pix_key_type.get()

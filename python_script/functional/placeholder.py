@@ -1,16 +1,16 @@
 import customtkinter as ctk
 
-class PlaceholderManager:
+class PlaceholderTextManager:
     def __init__(self, entry: ctk.CTkEntry):
         self.entry = entry
         self.placeholder_text = ""
         self.active = False
 
-    def set(self, text: str):
+    def set_placeholder_text(self, text: str):
         self.placeholder_text = text
-        self._apply_placeholder()
+        self._apply_placeholder_text()
 
-    def _apply_placeholder(self):
+    def _apply_placeholder_text(self):
         self.entry.delete(0, "end")
         self.entry.insert(0,
                           self.placeholder_text)
@@ -26,7 +26,7 @@ class PlaceholderManager:
 
     def restore(self, event=None):
         if not self.entry.get():
-            self._apply_placeholder()
+            self._apply_placeholder_text()
 
     def clear_if_active(self):
         if self.active:
