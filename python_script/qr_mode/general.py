@@ -65,7 +65,7 @@ class GeneralTab(ctk.CTkFrame):
         if mode == "Redirecionamento":
             self.pix_key_type.grid_remove()
             self.prefix_label.grid()
-            self.placeholder.set("Digite o domínio (ex: google.com)")
+            self.placeholder.set_placeholder_text("Digite o domínio (ex: google.com)")
         elif mode == "Pix":
             self.pix_key_type.grid()
             self.prefix_label.grid_remove()
@@ -84,7 +84,7 @@ class GeneralTab(ctk.CTkFrame):
             "E-mail": "Digite o e-mail da chave Pix",
             "Chave Aleatória": "Digite a chave aleatória (UUID, 32 caracteres hex)"
         }
-        self.placeholder.set(texts.get(tipo,"Digite a chave Pix..."))
+        self.placeholder.set_placeholder_text(texts.get(tipo,"Digite a chave Pix..."))
 
     def _handle_keypress(self, event):
         if self.placeholder.active:

@@ -53,8 +53,6 @@ class TextFrame(ctk.CTkFrame):
             self.hint_observation.configure(wraplength=width)
 
     def update_mode(self, value):
-        print("TextFrame.update_mode recebeu:", value)
-
         self.hint_title.configure(text="")
         self.set_hint_text("")
         self.set_observation_text("")

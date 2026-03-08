@@ -40,7 +40,6 @@ class LeftScreen(ctk.CTkFrame):
         self._on_mode_change(self.mode_menu.get())
 
     def _on_mode_change(self, value):
-        print("Modo mudou para:", value)
         self.textframe.update_mode(value)
 
         if value == "Customizar...":

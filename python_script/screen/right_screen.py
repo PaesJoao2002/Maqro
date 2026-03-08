@@ -139,7 +139,6 @@ class RightScreen(ctk.CTkFrame):
     
     def export_image(self):
         if self.final_image is None:
-            print("Nada para exportar.")
             return
 
         default_name = self._sanitize_filename(self.last_data)
@@ -155,7 +154,6 @@ class RightScreen(ctk.CTkFrame):
             return
 
         self.final_image.save(file_path)
-        print(f"QR Code salvo em: {file_path}")
     
     def render_from_string(self, data: str):
         self.last_data = data
