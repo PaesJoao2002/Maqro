@@ -34,17 +34,13 @@ class GeneralTab(ctk.CTkFrame):
         self.input_container.grid_columnconfigure(1, weight=1)
 
         self.prefix_label = ctk.CTkLabel(self.input_container, text="https://")
-        self.prefix_label.grid(row=0,
-                               column=0,
-                               padx=(20,10))
+        self.prefix_label.grid(row=0, column=0, padx=(20,10))
         self.prefix_label.grid_remove()
 
         self.text_field = ctk.CTkEntry(self.input_container,
                                        height=40,
                                        state="normal")
-        self.text_field.grid(row=0,
-                             column=1,
-                             sticky="ew")
+        self.text_field.grid(row=0, column=1, sticky="ew")
 
         EntryContextMenu(self.text_field, placeholder_attr="placeholder_active")
 
@@ -52,7 +48,7 @@ class GeneralTab(ctk.CTkFrame):
         self.button.grid(row=0, column=2, padx=10)
 
         self.placeholder = PlaceholderTextManager(self.text_field)
-        self.placeholder.set_placeholder_text("Digite aqui...")
+        self.placeholder.set("Digite aqui...")
 
         self.text_field.bind("<FocusIn>", self.placeholder.focus_in)
         self.text_field.bind("<FocusOut>", self.placeholder.restore)
@@ -65,7 +61,7 @@ class GeneralTab(ctk.CTkFrame):
         if mode == "Redirecionamento":
             self.pix_key_type.grid_remove()
             self.prefix_label.grid()
-            self.placeholder.set_placeholder_text("Digite o domínio (ex: google.com)")
+            self.placeholder.set("Digite o domínio (ex: google.com)")
         elif mode == "Pix":
             self.pix_key_type.grid()
             self.prefix_label.grid_remove()
@@ -73,7 +69,7 @@ class GeneralTab(ctk.CTkFrame):
         else:
             self.pix_key_type.grid_remove()
             self.prefix_label.grid_remove()
-            self.placeholder.set_placeholder_text("Digite seu texto aqui...")
+            self.placeholder.set("Digite seu texto aqui...")
 
     def _update_pix_placeholder(self):
         tipo = self.pix_key_type.get()
@@ -84,7 +80,7 @@ class GeneralTab(ctk.CTkFrame):
             "E-mail": "Digite o e-mail da chave Pix",
             "Chave Aleatória": "Digite a chave aleatória (UUID, 32 caracteres hex)"
         }
-        self.placeholder.set_placeholder_text(texts.get(tipo,"Digite a chave Pix..."))
+        self.placeholder.set(texts.get(tipo,"Digite a chave Pix..."))
 
     def _handle_keypress(self, event):
         if self.placeholder.active:
@@ -124,8 +120,7 @@ class GeneralTab(ctk.CTkFrame):
                     "Chave Aleatória": validate_random_key
                 }
                 key_type = self.pix_key_type.get()
-                payload = gerar_payload_pix(chave=validators[key_type](raw_text),
-                                            tipo=key_type)
+                payload = gerar_payload_pix(chave=validators[key_type](raw_text), tipo=key_type)
             else:
                 return
             self.right_screen.render_from_string(payload)
