@@ -1,34 +1,55 @@
 import re
 from python_script.functional.error_messages import *
 
+
 def validate_phone(raw: str) -> str:
     cleaned = re.sub(r"\D", "", raw)
-    if len(cleaned) != 11:
+    n = len(cleaned)
+
+    if n != 11:
         raise ValueError(PIX_PHONE_INVALID)
+
     return cleaned
+
 
 def validate_cpf(raw: str) -> str:
     cleaned = re.sub(r"\D", "", raw)
-    if len(cleaned) != 11:
+    n = len(cleaned)
+
+    if n != 11:
         raise ValueError(PIX_CPF_INVALID)
+
     return cleaned
+
 
 def validate_cnpj(raw: str) -> str:
-    cleaned = re.sub(r"\D", "", raw)
-    if len(cleaned) != 14:
+    digits = re.sub(r"\D", "", raw)
+
+    if len(digits) != 14:
         raise ValueError(PIX_CNPJ_INVALID)
-    return cleaned
+
+    return digits
+
 
 def validate_email(raw: str) -> str:
+    email = raw.strip()
     pattern = r"^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$"
-    if not re.match(pattern, raw.strip()):
+
+    if re.match(pattern, email) is None:
         raise ValueError(PIX_EMAIL_INVALID)
-    return raw.strip()
+
+    return email
+
 
 def validate_random_key(raw: str) -> str:
-    cleaned = raw.replace("-", "").lower()
-    if len(cleaned) != 32:
+    key = raw.lower().replace("-", "")
+
+    if len(key) != 32:
         raise ValueError(PIX_RANDOM_KEY_LENGTH_INVALID)
-    if not re.fullmatch(r"[0-9a-f]{32}", cleaned):
-        raise ValueError(PIX_RANDOM_KEY_FORMAT_INVALID)
-    return cleaned
+
+    # garante que só tem hex
+    for ch in key:
+        if ch not in "0123456789abcdef":
+            raise ValueError(PIX_RANDOM_KEY_FORMAT_INVALID)
+
+    return key

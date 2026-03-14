@@ -2,88 +2,134 @@ import re
 
 GUI_TEXT = "BR.GOV.BCB.PIX"
 
+
 def crc16(payload: str) -> str:
-    polinomy = 0x1021
-    result = 0xFFFF
+    poly = 0x1021
+    crc = 0xFFFF
 
-    for byte in payload.encode("utf-8"):
-        result ^= byte << 8
+    data = payload.encode("utf-8")
+
+    for b in data:
+        crc ^= b << 8
+
         for _ in range(8):
-            if result & 0x8000:
-                result = (result << 1) ^ polinomy
+            if crc & 0x8000:
+                crc = (crc << 1) ^ poly
             else:
-                result <<= 1
-            result &= 0xFFFF
+                crc <<= 1
 
-    return f"{result:04X}"
+            crc &= 0xFFFF
 
-def emv(id_: str, valor: str) -> str:
-    tamanho = f"{len(valor):02}"
-    return f"{id_}{tamanho}{valor}"
+    return f"{crc:04X}"
+
+
+def emv(tag: str, value: str) -> str:
+    size = f"{len(value):02}"
+    return f"{tag}{size}{value}"
+
+
+# -------------------------
+# Normalização das chaves
+# -------------------------
+
+def _norm_telefone(chave: str) -> str:
+    nums = re.sub(r"\D", "", chave)
+
+    if not 10 <= len(nums) <= 11:
+        raise ValueError("Telefone inválido")
+
+    return "+55" + nums
+
+
+def _norm_cpf(chave: str) -> str:
+    nums = re.sub(r"\D", "", chave)
+
+    if len(nums) != 11:
+        raise ValueError("CPF inválido")
+
+    return nums
+
+
+def _norm_cnpj(chave: str) -> str:
+    nums = re.sub(r"\D", "", chave)
+
+    if len(nums) != 14:
+        raise ValueError("CNPJ inválido")
+
+    return nums
+
+
+def _norm_email(chave: str) -> str:
+    return chave.strip().lower()
+
+
+def _norm_random(chave: str) -> str:
+    return chave.strip()
+
+
+_NORMALIZERS = {
+    "Telefone": _norm_telefone,
+    "CPF": _norm_cpf,
+    "CNPJ": _norm_cnpj,
+    "E-mail": _norm_email,
+    "Chave Aleatória": _norm_random,
+}
+
 
 def normalizar_por_tipo(chave: str, tipo: str) -> str:
     chave = chave.strip()
 
-    if tipo == "Telefone":
-        numeros = re.sub(r"\D", "", chave)
+    fn = _NORMALIZERS.get(tipo)
+    if fn is None:
+        raise ValueError(f"Tipo de chave desconhecido: {tipo}")
 
-        if len(numeros) not in (10, 11):
-            raise ValueError("Telefone inválido")
+    return fn(chave)
 
-        return "+55" + numeros
 
-    elif tipo == "CPF":
-        numeros = re.sub(r"\D", "", chave)
+# -------------------------
+# Geração do payload PIX
+# -------------------------
 
-        if len(numeros) != 11:
-            raise ValueError("CPF inválido")
+def gerar_payload_pix(
+    chave: str,
+    tipo: str,
+    valor: float | None = None,
+    txid: str = "***"
+) -> str:
 
-        return numeros
-
-    elif tipo == "CNPJ":
-        numeros = re.sub(r"\D", "", chave)
-
-        if len(numeros) != 14:
-            raise ValueError("CNPJ inválido")
-
-        return numeros
-
-    elif tipo == "E-mail":
-        return chave.lower()
-
-    elif tipo == "Chave Aleatória":
-        return chave
-
-    else:
-        raise ValueError("Tipo de chave desconhecido")
-
-def gerar_payload_pix(chave: str, tipo: str, valor: float | None = None, txid: str = "***") -> str:
     chave = normalizar_por_tipo(chave, tipo)
 
-    gui_field = emv("00", GUI_TEXT)
-    chave_field = emv("01", chave)
-    merchant_account = emv("26", gui_field + chave_field)
+    gui = emv("00", GUI_TEXT)
+    chave_pix = emv("01", chave)
+    merchant_account = emv("26", gui + chave_pix)
 
     payload = ""
-    payload += emv("00", "01")
-    payload += merchant_account
-    payload += emv("52", "0000")
-    payload += emv("53", "986")
-    payload += emv("58", "BR")
 
+    # payload format indicator
+    payload += emv("00", "01")
+
+    # merchant account info
+    payload += merchant_account
+
+    # campos fixos
+    payload += (
+        emv("52", "0000") +
+        emv("53", "986") +
+        emv("58", "BR")
+    )
+
+    # nome e cidade (mínimo obrigatório)
     payload += emv("59", "N")
     payload += emv("60", "C")
 
     if valor is not None:
-        valor_str = f"{valor:.2f}"
-        payload += emv("54", valor_str)
+        payload += emv("54", f"{valor:.2f}")
 
     adicional = emv("05", txid)
     payload += emv("62", adicional)
 
-    payload_crc = payload + "6304"
-    crc = crc16(payload_crc)
+    # CRC final
+    base = payload + "6304"
+    checksum = crc16(base)
 
-    payload_final = payload_crc + crc
-
-    return payload_final
+    return base + checksum
