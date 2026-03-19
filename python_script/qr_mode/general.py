@@ -118,9 +118,20 @@ class GeneralTab(ctk.CTkFrame):
                 payload = validate_text(raw)
 
             elif mode == "Redirecionamento":
-                if "." not in raw.split("/")[-1]:
+
+                url = raw.strip()
+
+                # remove protocolo se o usuário colar
+                if url.startswith("http://"):
+                    url = url[7:]
+                elif url.startswith("https://"):
+                    url = url[8:]
+
+                # valida de forma simples (bem mais realista)
+                if "." not in url.split("/")[0]:
                     raise ValueError("URL inválida")
-                payload = "https://" + raw
+
+                payload = "https://" + url
 
             elif mode == "Pix":
 
