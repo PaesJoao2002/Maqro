@@ -21,3 +21,5 @@ Você pode exportar seu QR Code ao clicar no botão "Exportar", abaixo do QR Cod
 # Lista de afazeres (1.2)
 - Aumentar suporte a um leque maior de opções de customização como mudança do formato de pontos (Mudar para círculos ou quadrados segmentados) e dos olhos do QR Code (As partes quadradas fechadas dos cantos do QR Code, formalmente chamados de PDP (Position Detection Pattern))
 - Aumentar suporte a formatos de imagens para exportação como .SVG e .JPG
+- Adicionar mais temas (talvez até customização de temas)
+- Possibilitar a geração de outros tipos de códigos binários bidimensionais como data matrix.
