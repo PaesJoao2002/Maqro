@@ -23,3 +23,4 @@ Você pode exportar seu QR Code ao clicar no botão "Exportar", abaixo do QR Cod
 - Aumentar suporte a formatos de imagens para exportação como .SVG e .JPG
 - Adicionar mais temas (talvez até customização de temas)
 - Possibilitar a geração de outros tipos de códigos binários bidimensionais como data matrix.
+- Implementar sistema de valor pré-definido para pagamentos via pix.
