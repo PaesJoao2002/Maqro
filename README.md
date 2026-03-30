@@ -1,5 +1,6 @@
 # Maqro - Gerador de QR Code
-Maqro é um software que gera QR Codes offline para as mais diversas finalidades, desde redirecionamento em sites até para pagamentos via pix. É um software baseado em Python que preza a simplicidade e dinamicidade. Apresenta uma interface minimalista porém extremamente eficaz, podendo ser carregado facilmente em computadores antigos.
+Maqro é um software que gera QR Codes offline para as mais diversas finalidades, desde redirecionamento em sites até para pagamentos via pix. É um software baseado em Python que preza a simplicidade e dinamicidade. Apresenta uma interface minimalista porém extremamente eficaz, podendo ser carregado facilmente até em computadores antigos.
+
 <img width="1000" height="406" alt="image" src="https://github.com/user-attachments/assets/505c94cc-779d-46bf-9ef3-69664499502d" />
 [Documentação do Software](https://github.com/PaesJoao2002/Maqro/blob/main/Documenta%C3%A7%C3%A3o%20Maqro.pdf)
 
